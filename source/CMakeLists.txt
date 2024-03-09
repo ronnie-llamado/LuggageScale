@@ -2,21 +2,25 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-set(EXECUTABLE ${PROJECT_NAME}.out)
+set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 
-
-set(SOURCE_DIR ".")
-set(INCLUDE_DIR "../include")
-
-set(SOURCE_LIST 
-	"${SOURCE_DIR}/main.c"
+set(APPLICATION_SOURCE_LIST 
+	CircularBuffer.c
+	DIO.c
+	HX711.c
+	LoadCell.c
+	Timer.c
+	UART.c
 )
 
-set(INCLUDE_LIST
-	"${INCLUDE_DIR}/main.h"
-)
+# Build each source file
+foreach(FILENAME IN LISTS APPLICATION_SOURCE_LIST)
+	get_filename_component(FILENAME_WE ${FILENAME} NAME_WE)
+	add_library(${FILENAME_WE} ${FILENAME})
+	target_include_directories(${FILENAME_WE} PRIVATE ${INCLUDE_DIR})
+endforeach()
 
-include_directories(${INCLUDE_DIR})
-
-add_executable(${EXECUTABLE} ${SOURCE_LIST} ${INCLUDE_LIST})
+add_executable(${APPLICATION_NAME} main.c)
+target_include_directories(${APPLICATION_NAME} PRIVATE ${INCLUDE_DIR})
+target_link_libraries(${APPLICATION_NAME} DIO HX711 LoadCell Timer UART)
 
