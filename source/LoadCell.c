@@ -4,8 +4,10 @@
 
 typedef struct LoadCellStruct
 {
+    // Replace with CircularBuffer
     int32_t * buffer;
     uint32_t bufferSize;
+
     int32_t offset;
     int32_t (* LoadCell_Read)(void);
 } LoadCell;
@@ -35,7 +37,8 @@ void LoadCell_Tare(LoadCell * self)
 
 int32_t LoadCell_Measure(LoadCell * self)
 {
-    return (self->LoadCell_Read() + self->offset);
+    int32_t value = (self->LoadCell_Read() + self->offset);
+    return value;
 }
 
 void LoadCell_AddReadCallback(LoadCell * self, int32_t (* pLoadCell_Read)(void))

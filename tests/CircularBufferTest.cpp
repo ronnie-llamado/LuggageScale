@@ -19,7 +19,7 @@ TEST_GROUP(CircularBuffer)
     // setup runs before each test
     void setup()
     {
-        buffer = CircularBuffer_Create(capacity, emptyValue);
+        buffer = CircularBuffer_Create(capacity);
     }
 
     // teardown runs after each test

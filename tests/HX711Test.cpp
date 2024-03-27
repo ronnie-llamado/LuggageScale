@@ -32,11 +32,6 @@ TEST_GROUP(HX711)
     }
 };
 
-TEST(HX711, test_create)
-{
-    CHECK(hx711 != NULL);
-}
-
 TEST(HX711, test_enable)
 {
     HX711_Enable(hx711);

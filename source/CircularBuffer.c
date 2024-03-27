@@ -3,11 +3,11 @@
 
 typedef struct CircularBufferStruct
 {
-    unsigned int capacity;
+    uint8_t capacity;
 
 } CircularBuffer;
 
-CircularBuffer * CircularBuffer_Create(unsigned int capacity, int default_value)
+CircularBuffer * CircularBuffer_Create(uint8_t capacity)
 {
     CircularBuffer * self = (CircularBuffer *)malloc(sizeof(CircularBuffer));
 
@@ -21,27 +21,26 @@ void CircularBuffer_Destroy(CircularBuffer * self)
     free(self);
 }
 
-bool CircularBuffer_IsEmpty(CircularBuffer * self)
+uint8_t CircularBuffer_IsEmpty(CircularBuffer * self)
 {
-    return true;
+    return 1;
 }
 
-bool CircularBuffer_IsFull(CircularBuffer * self)
-{
-    return false;
-}
-
-bool CircularBuffer_Put(CircularBuffer * self, int value)
-{
-    return false;
-}
-
-int CircularBuffer_Get(CircularBuffer * self)
+uint8_t CircularBuffer_IsFull(CircularBuffer * self)
 {
     return 0;
 }
 
-unsigned int CircularBuffer_Capacity(CircularBuffer * self)
+void CircularBuffer_Put(CircularBuffer * self, char value)
+{
+}
+
+char CircularBuffer_Get(CircularBuffer * self)
+{
+    return 0;
+}
+
+uint8_t CircularBuffer_Capacity(CircularBuffer * self)
 {
     return self->capacity;
 }

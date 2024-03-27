@@ -3,29 +3,37 @@ project (LuggageScale)
 # include CppUTest headers
 include_directories($ENV{CPPUTEST_HOME}/include)
 link_directories($ENV{CPPUTEST_HOME}/lib)
+set(CPPUTEST_LIBS CppUTest CppUTestExt)
 
 # include project source
 include_directories(${PROJECT_SOURCE_DIR}/source)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/mocks)
 
-set(TEST_EXE "TestExecutable")
-set(TEST_FILES)
-
 # HX711
-add_library(HX711Test HX711Test.cpp)
-target_include_directories(HX711Test PRIVATE "../include")
-target_include_directories(HX711Test PRIVATE "../mocks")
-target_link_libraries(HX711Test HX711 FakeDIO FakeTimer)
-list(APPEND TEST_FILES "HX711Test")
+set(FILENAME HX711Test.cpp)
+set(TEST_LIBS HX711 FakeDIO FakeTimer)
+get_filename_component(FILENAME_WE ${FILENAME} NAME_WE)
+add_executable(${FILENAME_WE} RunAllTests.cpp ${FILENAME})
+target_include_directories(${FILENAME_WE} PRIVATE "../include" "../mocks")
+target_link_libraries(${FILENAME_WE} ${CPPUTEST_LIBS} ${TEST_LIBS})
+add_custom_command(TARGET ${FILENAME_WE} COMMAND ./${FILENAME_WE} POST_BUILD)
 
 # CircularBuffer
-add_library(CircularBufferTest CircularBufferTest.cpp)
-target_include_directories(CircularBufferTest PRIVATE "../include")
-target_include_directories(CircularBufferTest PRIVATE "../mocks")
-target_link_libraries(CircularBufferTest CircularBuffer)
-list(APPEND TEST_FILES "CircularBufferTest")
+set(FILENAME CircularBufferTest.cpp)
+set(TEST_LIBS CircularBuffer)
+get_filename_component(FILENAME_WE ${FILENAME} NAME_WE)
+add_executable(${FILENAME_WE} RunAllTests.cpp ${FILENAME})
+target_include_directories(${FILENAME_WE} PRIVATE "../include" "../mocks")
+target_link_libraries(${FILENAME_WE} ${CPPUTEST_LIBS} ${TEST_LIBS})
+add_custom_command(TARGET ${FILENAME_WE} COMMAND ./${FILENAME_WE} POST_BUILD)
 
-add_executable(${TEST_EXE} RunAllTests.cpp)
-target_link_libraries(${TEST_EXE} CppUTest CppUTestExt ${TEST_FILES})
-add_custom_command(TARGET ${TEST_EXE} COMMAND ./${TEST_EXE} POST_BUILD)
+# LoadCell
+set(FILENAME LoadCellTest.cpp)
+set(TEST_LIBS CircularBuffer LoadCell FakeHX711)
+get_filename_component(FILENAME_WE ${FILENAME} NAME_WE)
+add_executable(${FILENAME_WE} RunAllTests.cpp ${FILENAME})
+target_include_directories(${FILENAME_WE} PRIVATE "../include" "../mocks")
+target_link_libraries(${FILENAME_WE} ${CPPUTEST_LIBS} ${TEST_LIBS})
+add_custom_command(TARGET ${FILENAME_WE} COMMAND ./${FILENAME_WE} POST_BUILD)
+
