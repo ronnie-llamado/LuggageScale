@@ -33,10 +33,12 @@ uint8_t CircularBuffer_IsFull(CircularBuffer * self)
 
 void CircularBuffer_Put(CircularBuffer * self, char value)
 {
+    self->capacity++;
 }
 
 char CircularBuffer_Get(CircularBuffer * self)
 {
+    self->capacity--;
     return 0;
 }
 
